@@ -15,7 +15,7 @@
 <body>
     <!-- Navbar -->
     <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-    <nav class="navbar navbar-expand-lg navbar-navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-navbar navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="{% url 'home' %}">
             <img src="{% static 'images/logo.png' %}" width="30" height="30" alt="NUAA Logo"> NUAA
         </a>
@@ -23,8 +23,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">

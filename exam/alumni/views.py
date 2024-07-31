@@ -14,7 +14,7 @@ def committee_members(request):
     return render(request, 'alumni/committee_members.html')
 
 def notice(request):
-    return render(request, 'alumni/notice.html')
+    return render(request, 'alumni/maintenance.html')
 
 def downloads(request):
     return render(request, 'alumni/downloads.html')

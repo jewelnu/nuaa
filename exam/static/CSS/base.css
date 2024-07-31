@@ -2,6 +2,12 @@
     margin-bottom: 20px;
     padding-left: 20px;
 }
+
+/* Custom CSS for hover effect */
+.nav-item:hover .nav-link {
+    color: #fff; /* Change this to your desired hover color */
+    background-color: #007bff; /* Change this to your desired hover background color */
+}
 .sidebar {
     height: calc(100% - 60px); /* Adjust height to exclude navbar height */
     position: fixed;
@@ -11,7 +17,7 @@
     background-color: #f8f9fa; /* Light background for sidebar */
     overflow-x: hidden;
     padding-top: 20px;
-    width: 250px;
+    width: 150px;
 }
 .sidebar a {
     padding: 10px 15px;
@@ -26,4 +32,9 @@
 .content {
     margin-left: 260px;
     padding: 20px;
+}
+/* Ensure body has padding to avoid overlap */
+body {
+   
+    padding-top: 56px; /* Same as navbar height */
 }
