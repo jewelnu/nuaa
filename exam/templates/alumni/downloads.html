@@ -1,0 +1,14 @@
+{% extends 'common_code/base.html' %}
+{%load static%}
+{% block title %}Home - National University Alumni Association{% endblock %}
+
+{% block content %}
+<h3>Download File</h3>
+    <a href="{% static 'downloads/ALUMNI FORM .pdf' %}" class="btn btn-secondary" download>
+        Download Alumni Member Form
+    </a><br><br>
+    <a href="{% static 'downloads/Primary_structure.pdf' %}" class="btn btn-secondary" download>
+        Download Alumni Association Policy
+    </a><br>
+
+{% endblock %}
