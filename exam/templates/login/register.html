@@ -1,0 +1,24 @@
+{% extends 'common_code/base.html' %}
+{%load static%}
+{% block title %}Login{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block content %}
+<h2>Register !</h2>
+    <form id="register-form" method="POST" autocomplete="off">
+        {% csrf_token %}
+        {{ registerform.non_field_errors }}
+        {% for field in registerform %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if submitted %}
+                    {{ field.errors }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Register">
+    </form>
+{% endblock %}
+
