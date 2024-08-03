@@ -81,16 +81,16 @@ WSGI_APPLICATION = 'exam.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'nuexam': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'nuexam',
         'USER': 'postgres',
         'PASSWORD': 'jeweland',
         'HOST': 'localhost',
         'PORT': '5432',
+    },
+    'sqlite': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
