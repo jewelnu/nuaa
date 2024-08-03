@@ -82,11 +82,11 @@ WSGI_APPLICATION = 'exam.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'nuexam',
-       'USER': 'postgres',
-       'PASSWORD': 'jeweland',
-       'HOST': 'localhost',
-       'PORT': '5432',
+        'NAME': 'nuexam',
+        'USER': 'postgres',
+        'PASSWORD': 'jeweland',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
