@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -14,7 +15,7 @@ def committee_members(request):
     return render(request, 'alumni/committee_members.html')
 
 def notice(request):
-    return render(request, 'alumni/maintenance.html')
+    return render(request, 'alumni/notice_board.html')
 
 def downloads(request):
     return render(request, 'alumni/downloads.html')
@@ -27,3 +28,7 @@ def message(request):
 
 def faq(request):
     return render(request, 'alumni/faq.html')
+
+
+def contact_us(request):
+    return render(request, 'alumni/contact_us.html')
