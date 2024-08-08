@@ -1,6 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render
+from .forms import ContactForm
 
 # Create your views here.
+
+
 def home(request):
     return render(request, 'alumni/home.html')
 
@@ -14,7 +18,7 @@ def committee_members(request):
     return render(request, 'alumni/committee_members.html')
 
 def notice(request):
-    return render(request, 'alumni/maintenance.html')
+    return render(request, 'alumni/notice_board.html')
 
 def downloads(request):
     return render(request, 'alumni/downloads.html')
@@ -27,3 +31,17 @@ def message(request):
 
 def faq(request):
     return render(request, 'alumni/faq.html')
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #need to sent mail from here
+            return render(request, 'alumni/success_contact.html')
+        else:
+            return render(request, 'alumni/error_contact.html')
+    form = ContactForm()
+    context = {'form': form}
+    return render(request, 'alumni/contact_us.html', context)
