@@ -2,7 +2,31 @@
 {%load static%}
 {% block title %}Login{% endblock %}
 {% block content %}
-<h1>My Dashboard</h1>
+<h3>Enter your registration number for check</h3>
+<form action="" method="post">
+   {% csrf_token %}
+   {{ form }}
+
+   {% if data_exist %}
+        <h2>Data Exist with following details</h2>
+        <div class="form-group">
+            <label for="student_name">Student Name</label>
+            <input type="text" class="form-control" id="student_name" value="{{ student.std_name }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="student_name">Father Name</label>
+            <input type="text" class="form-control" id="student_name" value="{{ student.fname }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="student_name">Mother Name</label>
+            <input type="text" class="form-control" id="student_name" value="{{ student.mname }}" readonly>
+        </div>
+    {% elif request.method == 'POST' %}
+        <h3>Data Not Match</h3>
+    {%endif%}
+
+   <input type="submit" value="Submit">
+</form>
     <a href="{% url 'logout'%}">Logout Here</a>
 {% endblock %}
 

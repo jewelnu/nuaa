@@ -12,6 +12,18 @@
 
    {% if student %}
         <h3>Data Exist</h3>
+        <div class="form-group">
+            <label for="student_name">Student Name</label>
+            <input type="text" class="form-control" id="student_name" value="{{ student.std_name }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="student_name">Student Name</label>
+            <input type="text" class="form-control" id="student_name" value="{{ student.fname }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="student_name">Student Name</label>
+            <input type="text" class="form-control" id="student_name" value="{{ student.mname }}" readonly>
+        </div>
     {% else %}
         <h3>Data Not Match</h3>
     {%endif%}

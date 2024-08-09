@@ -48,10 +48,6 @@ def my_login(request):
 
     return render(request, 'login/my-login.html',context= context)
 
-@login_required(login_url="my-log")
-def Dashboard(request):
-
-    return render(request, 'login/dashboard.html')
 
 def User_logout(request):
     logout(request)

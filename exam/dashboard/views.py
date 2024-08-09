@@ -2,19 +2,24 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .forms import Regi_form
 from .models import Degsif18Y3010919
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url="my-log")
 def check_registration(request):
     form = Regi_form()  # Initialize form at the start
     student = None  # Initialize student to None
+    data_matched = False
     if request.method == 'POST':
         form = Regi_form(request.POST)
         if form.is_valid():
             regi_temp= form.cleaned_data['reg_no']
             try:
                 student = Degsif18Y3010919.objects.get(reg_no=regi_temp)
+                data_matched=True
             except Degsif18Y3010919.DoesNotExist:
                 student = None  # Handle case where student does not exist
-    return render(request, 'dashboard/data_exist.html',{'form':form,'student':student})
+                data_matched = False
+    return render(request, 'login/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})
             
                 
 
