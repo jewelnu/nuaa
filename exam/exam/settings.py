@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'alumni',
     'login',
     'django_bootstrap5',
+    'dashboard',
 ]
 
 MIDDLEWARE = [

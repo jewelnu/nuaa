@@ -1,0 +1,21 @@
+{% extends 'common_code/base.html' %}
+{%load static%}
+{% block title %}National University Alumni Association{% endblock %}
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<h1>Data exist or Not</h1>
+<form action="" method="post">
+   {% csrf_token %}
+   {{ form }}
+
+   {% if student %}
+        <h3>Data Exist</h3>
+    {% else %}
+        <h3>Data Not Match</h3>
+    {%endif%}
+
+   <input type="submit" value="Submit">
+</form>
+{% endblock %}
