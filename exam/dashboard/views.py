@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from .forms import Regi_form
-from .models import Degsif18Y3010919
+from .models import Degsif18Y3010919,Student
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="my-log")
@@ -10,46 +10,38 @@ def check_registration(request):
     student = None  # Initialize student to None
     data_matched = False
     if request.method == 'POST':
-        form = Regi_form(request.POST)
-        if form.is_valid():
-            regi_temp= form.cleaned_data['reg_no']
-            try:
-                student = Degsif18Y3010919.objects.get(reg_no=regi_temp)
-                data_matched=True
-            except Degsif18Y3010919.DoesNotExist:
-                student = None  # Handle case where student does not exist
-                data_matched = False
-    return render(request, 'login/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})
+        if 'search' in request.POST:
+            form = Regi_form(request.POST)
+            if form.is_valid():
+                regi_temp= form.cleaned_data['reg_no']
+                try:
+                    student = Degsif18Y3010919.objects.get(reg_no=regi_temp)
+                    
+                    request.session['student_id'] = student.id  # Store the student's ID
+                    print(f"Student found: {student}")  # Debugging output
+                    data_matched=True
+                except Degsif18Y3010919.DoesNotExist:
+                    student = None  # Handle case where student does not exist
+                    data_matched = False
+        elif 'save' in request.POST:
+            form =Regi_form(request.POST)
+            if form.is_valid(): 
+                student_id =request.session.get('student_id')
+                if student_id:
+                    student= Degsif18Y3010919.objects.get(id=student_id) 
+                    new_student = Student(
+                        reg_no=student.reg_no,
+                        std_name=student.std_name,
+                        fname=student.fname,
+                        mname=student.mname,
+                        gender=form.cleaned_data['gender']  # Save additional_info
+                    )
+                    new_student.save()  # Save the new student instance
+                    return redirect('save_success')
+                else:
+                    print("Student variable is None, cannot save.")  # Debugging output
+    return render(request, 'dashboard/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})
             
-                
-
-
-
-
-'''def check_registration(request):
-    if request.method == 'POST':
-        form = Regi_form(request.POST)
-        if form.is_valid():
-            reg_no_tem = form.cleaned_data['reg_no']
-            try:
-                student = Degsif18Y3010919.objects.get(reg_no=reg_no_tem)
-                
-                if 'save' in request.POST:
-                    user = request.user
-                    # Assuming you have a model UserProfile to link users with the student data
-                    UserProfile.objects.create(user=user, student=student)
-                    return redirect('success_page')  # Redirect to a success page
-
-                return render(request, 'registration_check.html', {
-                    'form': form,
-                    'student': student,
-                })
-            except Student.DoesNotExist:
-                return render(request, 'registration_check.html', {
-                    'form': form,
-                    'no_match': True,
-                })
-    else:
-        form = RegNoForm()
-    return render(request, 'registration_check.html', {'form': form})'''
+def success(request):
+    return render(request, 'dashboard/success.html')        
 

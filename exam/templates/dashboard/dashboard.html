@@ -5,8 +5,13 @@
 <h3>Enter your registration number for check</h3>
 <form action="" method="post">
    {% csrf_token %}
-   {{ form }}
-
+   <div class="form-group">
+    {{ form.reg_no.label_tag }}
+    {{ form.reg_no }}
+    {% if form.reg_no.errors %}
+        <div class="text-danger">{{ form.reg_no.errors }}</div>
+    {% endif %}
+    </div>
    {% if data_exist %}
         <h2>Data Exist with following details</h2>
         <div class="form-group">
@@ -21,11 +26,22 @@
             <label for="student_name">Mother Name</label>
             <input type="text" class="form-control" id="student_name" value="{{ student.mname }}" readonly>
         </div>
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender" class="form-control" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
     {% elif request.method == 'POST' %}
         <h3>Data Not Match</h3>
     {%endif%}
 
-   <input type="submit" value="Submit">
+   <!--<input type="submit" value="Submit">-->
+   <button type="submit" name="search" class="btn btn-success">Search</button>
+   <button type="submit" name="save" class="btn btn-success">Save</button>
 </form>
     <a href="{% url 'logout'%}">Logout Here</a>
 {% endblock %}

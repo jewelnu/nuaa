@@ -47,3 +47,13 @@ class Degsif18Y3010919(models.Model):
     class Meta:
         managed = False
         db_table = 'degsif18y3010919'
+
+class Student(models.Model):
+    reg_no = models.CharField(max_length=20, unique=True)
+    std_name = models.CharField(max_length=100)
+    fname = models.CharField(max_length=100)
+    mname = models.CharField(max_length=100)
+    gender = models.CharField(max_length=10)  # For additional data
+
+    def __str__(self):
+        return self.std_name
