@@ -34,7 +34,9 @@ def check_registration(request):
                         std_name=student.std_name,
                         fname=student.fname,
                         mname=student.mname,
-                        gender=form.cleaned_data['gender']  # Save additional_info
+                        gender=form.cleaned_data['gender'],  # Save additional_info
+                        user = request.user,
+                        username = request.user.username
                     )
                     new_student.save()  # Save the new student instance
                     return redirect('save_success')

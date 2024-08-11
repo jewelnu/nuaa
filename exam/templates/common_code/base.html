@@ -58,6 +58,10 @@
                         <a class="nav-link" href="{% url 'dashboard' %}">MY Dashboard</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Welcome, {{ user.username }}</a>
+                    </li>
+            
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
                 {% else %}
