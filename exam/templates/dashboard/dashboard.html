@@ -40,9 +40,15 @@
     {%endif%}
 
    <!--<input type="submit" value="Submit">-->
+   
    <button type="submit" name="search" class="btn btn-success">Search</button>
-   <button type="submit" name="save" class="btn btn-success">Save</button>
+   <!-- Save button only visible when data_exist is True -->
+   <button type="submit" name="save" id="save-button" class="btn btn-success"style="display: {% if data_exist %}inline-block{% else %}none{% endif %};">
+       Save
+   </button>
+   
 </form>
     <a href="{% url 'logout'%}">Logout Here</a>
+
 {% endblock %}
 

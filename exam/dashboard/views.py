@@ -4,7 +4,7 @@ from .forms import Regi_form
 from .models import Degsif18Y3010919,Student
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url="my-log")
+'''@login_required(login_url="my-log")
 def check_registration(request):
     form = Regi_form()  # Initialize form at the start
     student = None  # Initialize student to None
@@ -42,8 +42,41 @@ def check_registration(request):
                     return redirect('save_success')
                 else:
                     print("Student variable is None, cannot save.")  # Debugging output
-    return render(request, 'dashboard/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})
+    return render(request, 'dashboard/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})'''
             
 def success(request):
-    return render(request, 'dashboard/success.html')        
+    return render(request, 'dashboard/success.html')  
+
+@login_required(login_url="my-log")
+def check_registration(request):
+    form = Regi_form()  # Initialize form at the start
+    student = None  # Initialize student to None
+    data_matched = False
+    if request.method == 'POST':
+        form = Regi_form(request.POST)
+        if form.is_valid():
+                regi_temp= form.cleaned_data['reg_no']
+                try:
+                    student = Degsif18Y3010919.objects.get(reg_no=regi_temp)
+                    print(f"Student found: {student}")  # Debugging output
+                    data_matched=True
+                except Degsif18Y3010919.DoesNotExist:
+                    student = None  # Handle case where student does not exist
+                    data_matched = False
+    
+    if 'save' in request.POST and student:
+        student_data = Student(
+                    reg_no=student.reg_no,
+                    std_name=student.std_name,
+                    fname=student.fname,
+                    mname=student.mname,
+                    gender=form.cleaned_data['gender'],
+                    user = request.user,
+                    username = request.user.username
+                )
+        student_data.save()
+        return redirect('save_success')
+    return render(request, 'dashboard/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})
+
+
 
