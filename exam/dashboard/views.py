@@ -72,7 +72,7 @@ def check_registration(request):
                     mname=student.mname,
                     gender=form.cleaned_data['gender'],
                     user = request.user,
-                    username = request.user.username
+                    username = request.user.email
                 )
         student_data.save()
         return redirect('save_success')
