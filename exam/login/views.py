@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from .forms import Createuserform, LoginForm,UserCreationForm
+from .forms import LoginForm,UserCreationForm,Createuserform
 
 from django.contrib.auth.models import auth,User
 from django.contrib.auth import authenticate,login,logout
