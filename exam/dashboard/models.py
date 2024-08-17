@@ -63,3 +63,52 @@ class Student(models.Model):
 
     def __str__(self):
         return self.std_name
+    
+class Member(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    # Personal Information
+    name = models.CharField(max_length=100)
+    date_of_birth = models.DateField()
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    ]
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    marital_status = models.CharField(max_length=50)
+    NATIONALITY_CHOICES = [
+        ('B', 'Bangladeshi'),
+        ('O', 'Non Bangladeshi'),
+    ]
+    nationality = models.CharField(max_length=1,choices=NATIONALITY_CHOICES)
+    spouse_name = models.CharField(max_length=100, blank=True)
+    number_of_children = models.IntegerField(default=0)
+    picture = models.ImageField(upload_to='pictures/', blank=True)
+     
+    
+    # Contact Information
+    present_address = models.TextField()
+    permanent_address = models.TextField()
+    phone_mobile = models.CharField(max_length=14)
+    phone_telephone = models.CharField(max_length=14, blank=True)
+    email_address = models.EmailField()
+    highest_degree_obtained = models.TextField()  # Could be a separate model if you need more structure
+    
+    # Professional Information
+    occupation = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+    work_address = models.TextField()
+    category_of_membership = models.CharField(max_length=100)
+    amount_payable_for_membership = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    # Payment Information
+    MODE_OF_PAYMENT_CHOICES = [
+        ('MB', 'Mobile Banking'),
+        ('BT', 'Bank Transfer'),
+    ]
+    mode_of_payment = models.CharField(max_length=2, choices=MODE_OF_PAYMENT_CHOICES)
+    specific_payment_option = models.CharField(max_length=50, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
