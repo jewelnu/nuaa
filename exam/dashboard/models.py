@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+import os
 
 # Create your models here.
 class Degsif18Y3010919(models.Model):
@@ -56,10 +57,55 @@ class Student(models.Model):
     fname = models.CharField(max_length=100)
     mname = models.CharField(max_length=100)
     gender = models.CharField(max_length=10)  # For additional data
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    username = models.CharField(max_length=50)
+    date_of_birth = models.DateField()
+    marital_status = models.CharField(max_length=50)
+    nationality = models.CharField(max_length=30)
+    spouse_name = models.CharField(max_length=100, blank=True)
+    number_of_children = models.IntegerField(default=0)
+    picture = models.ImageField(upload_to='member_images', blank=True)
+     # Completion Status
+    personal_info_complete = models.BooleanField(default=False)
+    contact_info_complete = models.BooleanField(default=False)
+    professional_info_complete = models.BooleanField(default=False)
+    payment_info_complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.std_name
+
+    def save(self, *args, **kwargs):
+        # Call the original save method to save the instance first
+        super().save(*args, **kwargs)
+
+        # Rename the image file after saving the instance
+        if self.picture:
+            # Get the file extension
+            ext = os.path.splitext(self.picture.name)[1]
+            # Create the new filename using reg_no
+            new_filename = f"{self.reg_no}{ext}"
+            # Construct the full path for the new file
+            new_file_path = os.path.join(self.picture.storage.location,'member_images', new_filename)
+
+            # Rename the file
+            os.rename(self.picture.path, new_file_path)
+
+            # Update the picture field with the new filename
+            self.picture.name = f'member_images/{new_filename}'
+            super().save(update_fields=['picture'])  # Save the updated picture field
+
+            
+'''class Student(models.Model):
+    reg_no = models.CharField(max_length=20, unique=True)
+    std_name = models.CharField(max_length=100)
+    fname = models.CharField(max_length=100)
+    mname = models.CharField(max_length=100)
+    gender = models.CharField(max_length=10)  # For additional data
     #user= models.ForeignKey(User, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     #user= models.CharField(settings.AUTH_USER_MODEL,max_length=10)
     username = models.CharField(max_length=50)
+   
 
     def __str__(self):
         return self.std_name
@@ -70,21 +116,14 @@ class Member(models.Model):
     # Personal Information
     name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
-    GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
-    ]
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+
+    gender = models.CharField(max_length=20)
     marital_status = models.CharField(max_length=50)
-    NATIONALITY_CHOICES = [
-        ('B', 'Bangladeshi'),
-        ('O', 'Non Bangladeshi'),
-    ]
-    nationality = models.CharField(max_length=1,choices=NATIONALITY_CHOICES)
+
+    nationality = models.CharField(max_length=30)
     spouse_name = models.CharField(max_length=100, blank=True)
     number_of_children = models.IntegerField(default=0)
-    picture = models.ImageField(upload_to='pictures/', blank=True)
+    picture = models.ImageField(upload_to='Images/Member', blank=True)
      
     
     # Contact Information
@@ -103,12 +142,31 @@ class Member(models.Model):
     amount_payable_for_membership = models.DecimalField(max_digits=10, decimal_places=2)
     
     # Payment Information
-    MODE_OF_PAYMENT_CHOICES = [
-        ('MB', 'Mobile Banking'),
-        ('BT', 'Bank Transfer'),
-    ]
-    mode_of_payment = models.CharField(max_length=2, choices=MODE_OF_PAYMENT_CHOICES)
+
+    mode_of_payment = models.CharField(max_length=20)
     specific_payment_option = models.CharField(max_length=50, blank=True, null=True)
+
+     # Completion Status
+    personal_info_complete = models.BooleanField(default=False)
+    contact_info_complete = models.BooleanField(default=False)
+    professional_info_complete = models.BooleanField(default=False)
+    payment_info_complete = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
+    
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    ]
+    NATIONALITY_CHOICES = [
+        ('B', 'Bangladeshi'),
+        ('O', 'Non Bangladeshi'),
+    ]
+    MODE_OF_PAYMENT_CHOICES = [
+        ('MB', 'Mobile Banking'),
+        ('BT', 'Bank Transfer'),
+    ]'''
+
+ 

@@ -19,12 +19,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 Templates_Dir = os.path.join(BASE_DIR,'templates')
 Static_Dir = os.path.join(BASE_DIR,'static')
 AUTH_USER_MODEL = 'login.CustomUser'
-SESSION_COOKIE_AGE = 60  # 5 minutes
+SESSION_COOKIE_AGE = 1000  # 5 minutes
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = '/accounts/logout/'  # Redirect after timeout
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+
+# Media files (uploads)
+MEDIA_URL = '/media/'  # URL to access media files
+MEDIA_ROOT = BASE_DIR / 'media'  # Directory where files will be uploaded
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!dib#+dfszlkjxn2yl^&9xn7vrf0i2grkrw%-ic*ivg#^(#(%+'

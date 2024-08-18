@@ -53,11 +53,11 @@ def check_registration(request):
     student = None  # Initialize student to None
     data_matched = False
     if request.method == 'POST':
-        form = Regi_form(request.POST)
+        form = Regi_form(request.POST, request.FILES)
         if form.is_valid():
-                regi_temp= form.cleaned_data['reg_no']
+                regi_search= form.cleaned_data['reg_no']
                 try:
-                    student = Degsif18Y3010919.objects.get(reg_no=regi_temp)
+                    student = Degsif18Y3010919.objects.get(reg_no=regi_search)
                     print(f"Student found: {student}")  # Debugging output
                     data_matched=True
                 except Degsif18Y3010919.DoesNotExist:
@@ -72,7 +72,13 @@ def check_registration(request):
                     mname=student.mname,
                     gender=form.cleaned_data['gender'],
                     user = request.user,
-                    username = request.user.email
+                    username = request.user.email,
+                    date_of_birth= form.cleaned_data['date_of_birth'],
+                    marital_status= form.cleaned_data['marital_status'],
+                    nationality= form.cleaned_data['nationality'],
+                    spouse_name = form.cleaned_data['spouse_name'],
+                    number_of_children= form.cleaned_data['number_of_children'],
+                    picture= form.cleaned_data['picture']
                 )
         student_data.save()
         return redirect('save_success')
