@@ -63,25 +63,30 @@ def check_registration(request):
                 except Degsif18Y3010919.DoesNotExist:
                     student = None  # Handle case where student does not exist
                     data_matched = False
-    
+        else:
+            print(form.errors) 
     if 'save' in request.POST and student:
-        student_data = Student(
-                    reg_no=student.reg_no,
-                    std_name=student.std_name,
-                    fname=student.fname,
-                    mname=student.mname,
-                    gender=form.cleaned_data['gender'],
-                    user = request.user,
-                    username = request.user.email,
-                    date_of_birth= form.cleaned_data['date_of_birth'],
-                    marital_status= form.cleaned_data['marital_status'],
-                    nationality= form.cleaned_data['nationality'],
-                    spouse_name = form.cleaned_data['spouse_name'],
-                    number_of_children= form.cleaned_data['number_of_children'],
-                    picture= form.cleaned_data['picture']
-                )
-        student_data.save()
-        return redirect('save_success')
+        if student:
+            student_data = Student(
+                        reg_no=student.reg_no,
+                        std_name=student.std_name,
+                        fname=student.fname,
+                        mname=student.mname,
+                        gender=form.cleaned_data['gender'],
+                        user = request.user,
+                        username = request.user.email,
+                        date_of_birth= form.cleaned_data['date_of_birth'],
+                        marital_status= form.cleaned_data['marital_status'],
+                        nationality= form.cleaned_data['nationality'],
+                        spouse_name = form.cleaned_data['spouse_name'],
+                        number_of_children= form.cleaned_data['number_of_children'],
+                        picture= form.cleaned_data['picture']
+                    )
+            student_data.save()
+            print("student data to save.")
+            return redirect('save_success')
+        else:
+              print("No student data to save.")
     return render(request, 'dashboard/dashboard.html',{'form':form,'student':student,'data_exist': data_matched})
 
 

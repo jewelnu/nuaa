@@ -5,6 +5,7 @@
 <h3>Enter your registration number for check</h3>
 <form action="" method="post" enctype="multipart/form-data">
    {% csrf_token %}
+
    <div class="form-group">
        {{ form.reg_no.label_tag }}
        {{ form.reg_no }}
@@ -70,9 +71,17 @@
        <div class="form-group col-md-4">
            {{ form.picture.label_tag }}
            {{ form.picture }}
+           <small class="form-text text-muted">Please upload an image of size greater then 300x300 pixels.</small>
+           {% if form.picture.errors %}
+           <div class="text-danger">{{ form.picture.errors }}</div>  <!-- Display error message -->
+            {% endif %}
        </div>
    {% elif request.method == 'POST' %}
        <h3>Data Not Match</h3>
+          <!-- Display non-field errors -->
+        {% if form.errors %}
+            <div class="text-danger">{{ form.errors }}</div>
+        {% endif %}
    {% endif %}
 
    <button type="submit" name="search" class="btn btn-success">Search</button>
