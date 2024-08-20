@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from exam.contact_us.forms import ContactModelForm
 
 
 # Create your views here.
