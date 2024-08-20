@@ -6,6 +6,8 @@
 *.pot
 *.py[co]
 .tox/
+.vscode/
+.venv/
 __pycache__
 MANIFEST
 dist/
@@ -33,7 +35,7 @@ nuenv/
 
 # PyCharm-specific files
 .idea/
-
+**/__pycache__/
 # Other files
 .DS_Store
 Thumbs.db
