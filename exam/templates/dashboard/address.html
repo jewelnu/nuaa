@@ -10,87 +10,108 @@
     <h2>Address Job Form</h2>
     <form method="post">
         {% csrf_token %}
-       <div class="row"> 
-        <div class="mb-3 col-md-4">
-            <label for="id_present_address" class="form-label">Present Address</label>
-            <input type="text" name="present_address" id="id_present_address" class="form-control" placeholder="Present Address" required>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Present Address Information</h5>
+            </div>
+            <div class="card-body">   
+                <div class="row"> 
+                    <div class="mb-3 col-md-4">
+                        <label for="id_present_address" class="form-label">Present Address</label>
+                        {{ form.present_address }}
+                    </div>
+                    
+                    <div class="mb-3 col-md-3">
+                        <label for="id_present_dist" class="form-label">Present District</label>
+                        <select name="present_dist" id="id_present_dist" class="form-select" required>
+                            <option value="">Select District</option>
+                            {% for district in districts %}
+                                <option value="{{ district.id }}">{{ district.district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3 col-md-3">
+                        <label for="id_present_upozilla" class="form-label">Present Upozilla</label>
+                        <select name="present_upozilla" id="id_present_upozilla" class="form-select" required>
+                            <option value="">Select Upozilla</option>
+                            {% for upozilla in form.present_upozilla.field.queryset %}
+                                <option value="{{ upozilla.id }}">{{ upozilla.upozilla }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="mb-3 col-md-3">
-            <label for="id_present_dist" class="form-label">Present District</label>
-            <select name="present_dist" id="id_present_dist" class="form-select" required>
-                <option value="">Select District</option>
-                {% for district in form.present_dist.field.queryset %}
-                    <option value="{{ district.id }}">{{ district.district }}</option>
-                {% endfor %}
-            </select>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Permanent Address Information</h5>
+            </div>
+            <div class="card-body">    
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="id_permanent_address" class="form-label">Permanent Address</label>
+                        {{ form.permanent_address }}
+                    </div>
+                    
+                    <div class="mb-3 col-md-3">
+                        <label for="id_permanent_dist" class="form-label">Permanent District</label>
+                        <select name="permanent_dist" id="id_permanent_dist" class="form-select" required>
+                            <option value="">Select District</option>
+                            {% for district in districts %}
+                                <option value="{{ district.id }}">{{ district.district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3 col-md-3">
+                        <label for="id_permanent_upozilla" class="form-label">Permanent Upozilla</label>
+                        <select name="permanent_upozilla" id="id_permanent_upozilla" class="form-select" required>
+                            <option value="">Select Upozilla</option>
+                            {% for upozilla in form.permanent_upozilla.field.queryset %}
+                                <option value="{{ upozilla.id }}">{{ upozilla.upozilla }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="mb-3 col-md-3">
-            <label for="id_present_upozilla" class="form-label">Present Upozilla</label>
-            <select name="present_upozilla" id="id_present_upozilla" class="form-select" required>
-                <option value="">Select Upozilla</option>
-                {% for upozilla in form.present_upozilla.field.queryset %}
-                    <option value="{{ upozilla.id }}">{{ upozilla.upozilla }}</option>
-                {% endfor %}
-            </select>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Work Address Information</h5>
+            </div>
+            <div class="card-body"> 
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="id_work_address" class="form-label">Work Address</label>
+                        {{ form.work_address }}
+                    </div>
+                    
+                    <div class="mb-3 col-md-3">
+                        <label for="id_work_dist" class="form-label">Work District</label>
+                        <select name="work_dist" id="id_work_dist" class="form-select" required>
+                            <option value="">Select District</option>
+                            {% for district in districts %}
+                                <option value="{{ district.id }}">{{ district.district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3 col-md-3">
+                        <label for="id_work_upozilla" class="form-label">Work Upozilla</label>
+                        <select name="work_upozilla" id="id_work_upozilla" class="form-select" required>
+                            <option value="">Select Upozilla</option>
+                            {% for upozilla in form.work_upozilla.field.queryset %}
+                                <option value="{{ upozilla.id }}">{{ upozilla.upozilla }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="mb-3 col-md-4">
-            <label for="id_permanent_address" class="form-label">Permanent Address</label>
-            <input type="text" name="permanent_address" id="id_permanent_address" class="form-control" placeholder="Permanent Address" required>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
-        
-        <div class="mb-3 col-md-3">
-            <label for="id_permanent_dist" class="form-label">Permanent District</label>
-            <select name="permanent_dist" id="id_permanent_dist" class="form-select" required>
-                <option value="">Select District</option>
-                {% for district in form.permanent_dist.field.queryset %}
-                    <option value="{{ district.id }}">{{ district.district }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="mb-3 col-md-3">
-            <label for="id_permanent_upozilla" class="form-label">Permanent Upozilla</label>
-            <select name="permanent_upozilla" id="id_permanent_upozilla" class="form-select" required>
-                <option value="">Select Upozilla</option>
-                {% for upozilla in form.permanent_upozilla.field.queryset %}
-                    <option value="{{ upozilla.id }}">{{ upozilla.upozilla }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="mb-3 col-md-4">
-            <label for="id_work_address" class="form-label">Work Address</label>
-            <input type="text" name="work_address" id="id_work_address" class="form-control" placeholder="Work Address" required>
-        </div>
-        
-        <div class="mb-3 col-md-3">
-            <label for="id_work_dist" class="form-label">Work District</label>
-            <select name="work_dist" id="id_work_dist" class="form-select" required>
-                <option value="">Select District</option>
-                {% for district in form.work_dist.field.queryset %}
-                    <option value="{{ district.id }}">{{ district.district }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="mb-3 col-md-3">
-            <label for="id_work_upozilla" class="form-label">Work Upozilla</label>
-            <select name="work_upozilla" id="id_work_upozilla" class="form-select" required>
-                <option value="">Select Upozilla</option>
-                {% for upozilla in form.work_upozilla.field.queryset %}
-                    <option value="{{ upozilla.id }}">{{ upozilla.upozilla }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">

@@ -37,17 +37,17 @@ class Regi_form(forms.Form):
 
 class AddressJobForm(forms.ModelForm):
     # Address fields
-    present_address = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Present Address'}))
+    present_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Present Address'}))
      # Dropdown fields for present address
     present_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
     present_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
 
-    permanent_address = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Permanent Address'}))
+    permanent_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Permanent Address'}))
     # Dropdown fields for permanent address
     permanent_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
     permanent_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
 
-    work_address = forms.CharField(max_length=255, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Work Address'}))
+    work_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Work Address'}))
     # Dropdown fields for work address
     work_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
     work_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))

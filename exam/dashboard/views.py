@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from .forms import Regi_form, AddressJobForm
-from .models import Degsif18Y3010919,Student,Upozilla
+from .models import Degsif18Y3010919,Student,Upozilla,District
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -59,7 +59,8 @@ def address_job_view(request):
             return redirect('save_success')  
     else:
         form = AddressJobForm()
-    return render(request, 'dashboard/address.html', {'form': form})
+    districts = District.objects.all()
+    return render(request, 'dashboard/address.html', {'form': form,'districts': districts})
 
 def load_upozillas(request):
     district_id = request.GET.get('district_id')
