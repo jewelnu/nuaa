@@ -1,0 +1,17 @@
+{% extends 'common_code/base.html' %}
+{%load static%}
+{% block title %}National University Alumni Association{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Contact us</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form }}
+  <div class="form-actions">
+    <button type="submit">Send</button>
+  </div>
+</form>
+{% endblock %}

@@ -23,5 +23,4 @@ urlpatterns = [
     path('login/', include('login.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('project_stage/', include('userdetails.urls')),
-    path("contact_us/", include("contact_us.urls")),
 ]
