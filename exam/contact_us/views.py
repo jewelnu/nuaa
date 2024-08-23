@@ -15,10 +15,28 @@ def contact_us(request):
         form = ContactModelForm(request.POST)
         if form.is_valid():
             form.save()
-            # need to sent mail from here
-            return render(request, 'contact_us/success_contact.html')
+
+            email = form.cleaned_data.get("email")
+            subject = form.cleaned_data.get("subject")
+            message = form.cleaned_data.get("message")
+
+            full_message = f"""
+                Received message below from {email}, {subject}
+                ________________________________________________________________________________________________________
+
+
+                {message}
+                """
+            send_mail(
+                subject="Received contact form submission",
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.NOTIFY_EMAIL],
+            )
+
+            return render(request, 'contact_us/success.html')
         else:
-            return render(request, 'contact_us/error_contact.html')
+            return render(request, 'contact_us/error.html')
     form = ContactModelForm()
     context = {'form': form}
     return render(request, 'contact_us/contact_us.html', context)
@@ -30,10 +48,10 @@ class SuccessView(TemplateView):
 
 class ContactView(FormView):
     form_class = ContactForm
-    template_name = "contact_us/contact.html"
+    template_name = "contact_us/contact_email.html"
 
     def get_success_url(self):
-        return reverse("contact")
+        return reverse("success")
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")

@@ -94,8 +94,51 @@ class Student(models.Model):
             self.picture.name = f'member_images/{new_filename}'
             super().save(update_fields=['picture'])  # Save the updated picture field
 
-            
-'''class Student(models.Model):
+class AddressJob(models.Model):
+    # Contact Information
+    present_address = models.TextField()
+    present_dist = models.TextField()
+    present_upozilla = models.TextField()
+    permanent_address = models.TextField()
+    permanent_dist= models.TextField()
+    permanent_upozilla = models.TextField()
+    work_address = models.TextField()
+    work_dist= models.TextField()
+    work_upozilla= models.TextField()
+    
+    def __str__(self):
+        return self.present_address   
+
+
+class District(models.Model):
+    district = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'district'
+
+
+class Upozilla(models.Model):
+    district = models.CharField(max_length=255, blank=True, null=True)
+    upozilla = models.CharField(max_length=255, blank=True, null=True)
+    dist_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'upozilla'   
+
+    '''phone_mobile = models.CharField(max_length=14)
+    phone_telephone = models.CharField(max_length=14, blank=True)
+    highest_degree_obtained = models.TextField()  # Could be a separate model if you need more structure
+    
+    # Professional Information
+    occupation = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+   
+    category_of_membership = models.CharField(max_length=100)
+    amount_payable_for_membership = models.DecimalField(max_digits=10, decimal_places=2) 
+
+    class Student(models.Model):
     reg_no = models.CharField(max_length=20, unique=True)
     std_name = models.CharField(max_length=100)
     fname = models.CharField(max_length=100)

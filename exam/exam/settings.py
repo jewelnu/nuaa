@@ -16,8 +16,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-Templates_Dir = os.path.join(BASE_DIR,'templates')
-Static_Dir = os.path.join(BASE_DIR,'static')
+Templates_Dir = os.path.join(BASE_DIR, 'templates')
+Static_Dir = os.path.join(BASE_DIR, 'static')
 AUTH_USER_MODEL = 'login.CustomUser'
 SESSION_COOKIE_AGE = 1000  # 5 minutes
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -37,7 +37,6 @@ SECRET_KEY = 'django-insecure-!dib#+dfszlkjxn2yl^&9xn7vrf0i2grkrw%-ic*ivg#^(#(%+
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -87,7 +86,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'exam.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -105,7 +103,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -125,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -137,23 +133,23 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS=[Static_Dir,]
+STATICFILES_DIRS = [Static_Dir, ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email Configuration Start
+DEFAULT_FROM_EMAIL = 'smiletechbd@gmail.com'  # Replace with your Gmail address
+NOTIFY_EMAIL = 'smiletechbd@gmail.com'  # Replace with your Gmail address
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'smiletechbd@gmail.com'  # Replace with your Gmail address
 EMAIL_HOST_PASSWORD = 'qmgb ampc suqb sija'  # Replace with your Gmail password
-DEFAULT_FROM_EMAIL = 'smiletechbd@gmail.com'  # Replace with your Gmail address
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 ################################################
