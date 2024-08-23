@@ -1,7 +1,8 @@
 from django import forms
-from .models import Student
+from .models import Student,District, Upozilla, AddressJob
 from django.core.exceptions import ValidationError
 from PIL import Image as PTL_Image
+
 
 class Regi_form(forms.Form):
     reg_no =forms.CharField(max_length=20,label ="Registration Number")
@@ -32,14 +33,48 @@ class Regi_form(forms.Form):
                 raise ValidationError('Passport image size should be minimum 300x300 pixels. Current size: {}x{}.'.format(width, height))
         return pp_picture
 
-    '''def clean_picture(self):
-        picture = self.cleaned_data["picture"]
-        if picture:
-            # Open the image to check its size
-            img= PTL_Image.open(picture)
-            width,height = img.size
-            # Check if the image size is exactly 300x300 pixels
-            if width!=300 or height!=300:
-                raise ValidationError('Passport image size should exactly 300X300 pixels.Current size: {}X{}.'.format(width,height))
-        return picture'''
-    
+
+
+class AddressJobForm(forms.ModelForm):
+    # Address fields
+    present_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Present Address'}))
+     # Dropdown fields for present address
+    present_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
+    present_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
+
+    permanent_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Permanent Address'}))
+    # Dropdown fields for permanent address
+    permanent_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
+    permanent_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
+
+    work_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Work Address'}))
+    # Dropdown fields for work address
+    work_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
+    work_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
+
+    class Meta:
+        model = AddressJob
+        fields = ['present_address', 'present_dist', 'present_upozilla', 
+                  'permanent_address', 'permanent_dist', 'permanent_upozilla', 
+                  'work_address', 'work_dist', 'work_upozilla']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'present_dist' in self.data:
+            try:
+                district_id = int(self.data.get('present_dist'))
+                self.fields['present_upozilla'].queryset = Upozilla.objects.filter(dist_id=district_id).order_by('upozilla')
+            except (ValueError, TypeError):
+                pass
+        if 'permanent_dist' in self.data:
+            try:
+                district_id = int(self.data.get('permanent_dist'))
+                self.fields['permanent_upozilla'].queryset = Upozilla.objects.filter(dist_id=district_id).order_by('upozilla')
+            except (ValueError, TypeError):
+                pass
+        if 'work_dist' in self.data:
+            try:
+                district_id = int(self.data.get('work_dist'))
+                self.fields['work_upozilla'].queryset = Upozilla.objects.filter(dist_id=district_id).order_by('upozilla')
+            except (ValueError, TypeError):
+                pass

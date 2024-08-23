@@ -40,17 +40,6 @@ class Allcol191(models.Model):
         db_table = 'allcol19_1'
 
 
-class AlumniContact(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    email = models.CharField(max_length=254)
-    subject = models.CharField(max_length=255)
-    message = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'alumni_contact'
-
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -101,23 +90,59 @@ class AuthUser(models.Model):
 class AuthUserGroups(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    group_id = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
+        unique_together = (('user', 'group_id'),)
 
 
 class AuthUserUserPermissions(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+    permission_id = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        unique_together = (('user', 'permission_id'),)
+
+
+class ContactUsContact(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    email = models.CharField(max_length=254)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'contact_us_contact'
+
+
+class DashboardStudent(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    reg_no = models.CharField(unique=True, max_length=20)
+    std_name = models.CharField(max_length=100)
+    fname = models.CharField(max_length=100)
+    mname = models.CharField(max_length=100)
+    gender = models.CharField(max_length=10)
+    username = models.CharField(max_length=50)
+    date_of_birth = models.DateField()
+    marital_status = models.CharField(max_length=50)
+    nationality = models.CharField(max_length=30)
+    spouse_name = models.CharField(max_length=100)
+    number_of_children = models.IntegerField()
+    picture = models.CharField(max_length=100)
+    personal_info_complete = models.BooleanField()
+    contact_info_complete = models.BooleanField()
+    professional_info_complete = models.BooleanField()
+    payment_info_complete = models.BooleanField()
+    user = models.ForeignKey('LoginCustomuser', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'dashboard_student'
 
 
 class DegreeSubjectNew(models.Model):
@@ -195,6 +220,14 @@ class Degsif18Y3010919(models.Model):
         db_table = 'degsif18y3010919'
 
 
+class District(models.Model):
+    district = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'district'
+
+
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -202,7 +235,7 @@ class DjangoAdminLog(models.Model):
     action_flag = models.SmallIntegerField()
     change_message = models.TextField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    user = models.ForeignKey('LoginCustomuser', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -240,6 +273,46 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class LoginCustomuser(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.BooleanField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    is_staff = models.BooleanField()
+    is_active = models.BooleanField()
+    date_joined = models.DateTimeField()
+    email = models.CharField(unique=True, max_length=254)
+
+    class Meta:
+        managed = False
+        db_table = 'login_customuser'
+
+
+class LoginCustomuserGroups(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    customuser = models.ForeignKey(LoginCustomuser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'login_customuser_groups'
+        unique_together = (('customuser', 'group'),)
+
+
+class LoginCustomuserUserPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    customuser = models.ForeignKey(LoginCustomuser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'login_customuser_user_permissions'
+        unique_together = (('customuser', 'permission'),)
+
+
 class PaymentsPayMethod(models.Model):
     id = models.BigAutoField(primary_key=True)
     pay_id = models.IntegerField()
@@ -269,6 +342,16 @@ class ProductCustomertable(models.Model):
     class Meta:
         managed = False
         db_table = 'product_customertable'
+
+
+class Upozilla(models.Model):
+    district = models.CharField(max_length=255, blank=True, null=True)
+    upozilla = models.CharField(max_length=255, blank=True, null=True)
+    dist_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'upozilla'
 
 
 class UserAuthenticationProfile(models.Model):
