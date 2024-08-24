@@ -102,9 +102,18 @@ class AddressJob(models.Model):
     permanent_address = models.TextField()
     permanent_dist= models.TextField()
     permanent_upozilla = models.TextField()
+    
     work_address = models.TextField()
     work_dist= models.TextField()
     work_upozilla= models.TextField()
+    company_name= models.TextField(max_length=50, null=True)
+    occupation = models.CharField(max_length=100, null=True)
+    designation = models.CharField(max_length=100, null=True)
+    mobile = models.CharField(max_length=11, null=False, blank=False, default='00000000000')
+    telephone = models.CharField(max_length=14, null=True)
+    highest_degree_obtained = models.TextField(null=True)
+    category_of_membership = models.CharField(max_length=100,null=True)
+    amount_payable = models.DecimalField(max_digits=10, decimal_places=2,null=True) 
     
     def __str__(self):
         return self.present_address   
@@ -127,18 +136,7 @@ class Upozilla(models.Model):
         managed = False
         db_table = 'upozilla'   
 
-    '''phone_mobile = models.CharField(max_length=14)
-    phone_telephone = models.CharField(max_length=14, blank=True)
-    highest_degree_obtained = models.TextField()  # Could be a separate model if you need more structure
-    
-    # Professional Information
-    occupation = models.CharField(max_length=100)
-    designation = models.CharField(max_length=100)
-   
-    category_of_membership = models.CharField(max_length=100)
-    amount_payable_for_membership = models.DecimalField(max_digits=10, decimal_places=2) 
-
-    class Student(models.Model):
+    '''class Student(models.Model):
     reg_no = models.CharField(max_length=20, unique=True)
     std_name = models.CharField(max_length=100)
     fname = models.CharField(max_length=100)

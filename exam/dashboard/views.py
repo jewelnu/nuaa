@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from .forms import Regi_form, AddressJobForm
-from .models import Degsif18Y3010919,Student,Upozilla,District
+from .models import Degsif18Y3010919,Student,Upozilla,District,AddressJob
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -54,8 +54,27 @@ def check_registration(request):
 def address_job_view(request):
     if request.method == "POST":
         form = AddressJobForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if form.is_valid():       
+            # Create a new AddressJob instance and save it
+            AddressJob.objects.create(
+                present_address=form.cleaned_data['present_address'],
+                present_dist=form.cleaned_data['present_dist'].district,
+                present_upozilla=form.cleaned_data['present_upozilla'].upozilla,
+                permanent_address=form.cleaned_data['permanent_address'],
+                permanent_dist=form.cleaned_data['permanent_dist'].district,
+                permanent_upozilla=form.cleaned_data['permanent_upozilla'].upozilla,
+                occupation=form.cleaned_data['occupation'],
+                work_address=form.cleaned_data['work_address'],
+                work_dist=form.cleaned_data['work_dist'].district,
+                work_upozilla=form.cleaned_data['work_upozilla'].upozilla,
+                company_name= form.cleaned_data['company_name'],
+                designation= form.cleaned_data['designation'],
+                mobile= form.cleaned_data['mobile'],
+                telephone=form.cleaned_data['telephone'],
+                highest_degree_obtained=form.cleaned_data['highest_degree_obtained'],
+                category_of_membership=form.cleaned_data['category_of_membership'],
+                amount_payable=form.cleaned_data['amount_payable']
+            )
             return redirect('save_success')  
     else:
         form = AddressJobForm()

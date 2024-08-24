@@ -2,6 +2,8 @@ from django import forms
 from .models import Student,District, Upozilla, AddressJob
 from django.core.exceptions import ValidationError
 from PIL import Image as PTL_Image
+from django.core import validators
+from django.core.validators import RegexValidator
 
 
 class Regi_form(forms.Form):
@@ -46,17 +48,24 @@ class AddressJobForm(forms.ModelForm):
     # Dropdown fields for permanent address
     permanent_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
     permanent_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
-
     work_address = forms.CharField(max_length=255, required=True, widget=forms.Textarea(attrs={'rows':4,'cols':20,'class': 'form-control', 'placeholder': 'Work Address'}))
-    # Dropdown fields for work address
     work_dist = forms.ModelChoiceField(queryset=District.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
     work_upozilla = forms.ModelChoiceField(queryset=Upozilla.objects.none(), required=True, widget=forms.Select(attrs={'class': 'form-select'}))
-
+    company_name=forms.CharField(max_length=50,label= "Company Name", required=False, widget= forms.TextInput(attrs={'class': 'form-control'}))
+    occupation= forms.CharField(max_length=50,label= "Ocupation", required=True, widget= forms.TextInput(attrs={'class': 'form-control'}))
+    designation= forms.CharField(max_length=50,label= "Designation", required=False, widget= forms.TextInput(attrs={'class': 'form-control'}))
+    mobile = forms.CharField(label= "Mobile Number",required=True,validators=[validators.MaxLengthValidator(11),validators.MinLengthValidator(11),RegexValidator(regex=r'^\d{11}$', message="Mobile number must be exactly 11 digits and contain only numbers.")],widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Your mobile number'}))
+    telephone = forms.CharField(label= "Telephone Number(Optional)",required=False,validators=[validators.MaxLengthValidator(11)],widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'Enter Your telephone number'}))
+    highest_degree_obtained= forms.CharField(max_length=50,label= "Highest Degree Obtained", required=True, widget= forms.TextInput(attrs={'class': 'form-control'}))
+    category_of_membership= forms.CharField(max_length=50,label= "Category of Membership", required=False, widget= forms.TextInput(attrs={'class': 'form-control'}))
+    amount_payable= forms.CharField(max_length=50,label= "Amount Payable for Membership", required=False, widget= forms.TextInput(attrs={'class': 'form-control'}))
     class Meta:
         model = AddressJob
         fields = ['present_address', 'present_dist', 'present_upozilla', 
                   'permanent_address', 'permanent_dist', 'permanent_upozilla', 
-                  'work_address', 'work_dist', 'work_upozilla']
+                  'work_address', 'work_dist', 'work_upozilla','company_name','occupation',
+                  'designation','mobile','telephone','highest_degree_obtained',
+                  'category_of_membership','amount_payable']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

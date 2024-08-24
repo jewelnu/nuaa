@@ -109,72 +109,106 @@
                 </div>
             </div>
         </div>
+                <div class="row">
+                    <div class="mb-3 col-md-3">
+                        {{ form.company_name.label_tag }}
+                        {{ form.company_name }}
+                    </div>
+                    <div class="mb-3 col-md-3">
+                        {{ form.occupation.label_tag }}
+                        <select name="occupation" id="occupation" class="form-control" required>
+                            <option value="">Select occupation</option>
+                            <option value="Service">Service</option>
+                            <option value="Business">Business</option>
+                            <option value="House Wife">House Wife</option> 
+                            <option value="Other">Other</option>    
+                        </select>
+                        {% if form.occupation.errors %}
+                        <div class="alert alert-danger">
+                            {{ form.occupation.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 col-md-3">
+                        {{ form.designation.label_tag }}
+                        {{ form.designation }}
+                    </div>
+                    <div class="mb-3 col-md-3">
+                        {{ form.mobile.label_tag }}
+                        {{ form.mobile }}
+                        {% if form.mobile.errors %}
+                        <div class="alert alert-danger">
+                            {{ form.mobile.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="mb-3 col-md-3">
+                        {{ form.telephone.label_tag }}
+                        {{ form.telephone }}
+                    </div>
+                    <div class="mb-3 col-md-3">
+                        {{ form.highest_degree_obtained.label_tag }}
+                        {{ form.highest_degree_obtained }}
+                        {% if form.highest_degree_obtained.errors %}
+                        <div class="alert alert-danger">
+                            {{ form.highest_degree_obtained.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 col-md-3">
+                        {{ form.category_of_membership.label_tag }}
+                        <select name="category_of_membership" id="category_of_membership" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="General" data-amount="1000">General</option>
+                            <option value="Lifetime" data-amount="5000">Lifetime</option>   
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-3">
+                        {{ form.amount_payable.label_tag }}
+                        <input type="number" name="amount_payable" id="amount_payable" class="form-control" value="" step="0.01" readonly>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+    </form>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        // Load upozillas for present address
-        $('#id_present_dist').change(function() {
-            var districtId = $(this).val();
-            $.ajax({
-                url: '{% url "load_upozillas" %}',
-                data: {
-                    'district_id': districtId
-                },
-                success: function(data) {
-                    $('#id_present_upozilla').html('<option value="">Select Upozilla</option>');
-                    $.each(data, function(key, value) {
-                        $('#id_present_upozilla').append($('<option>', { 
-                            value: value.id,
-                            text: value.upozilla 
-                        }));
-                    });
-                }
+        function loadUpozillas(districtSelectId, upozillaSelectId) {
+            $(districtSelectId).change(function() {
+                var districtId = $(this).val();
+                $.ajax({
+                    url: '{% url "load_upozillas" %}',
+                    data: {
+                        'district_id': districtId
+                    },
+                    success: function(data) {
+                        $(upozillaSelectId).html('<option value="">Select Upozilla</option>');
+                        $.each(data, function(key, value) {
+                            $(upozillaSelectId).append($('<option>', { 
+                                value: value.id,
+                                text: value.upozilla 
+                            }));
+                        });
+                    }
+                });
             });
-        });
+        }
 
-        // Load upozillas for permanent address
-        $('#id_permanent_dist').change(function() {
-            var districtId = $(this).val();
-            $.ajax({
-                url: '{% url "load_upozillas" %}',
-                data: {
-                    'district_id': districtId
-                },
-                success: function(data) {
-                    $('#id_permanent_upozilla').html('<option value="">Select Upozilla</option>');
-                    $.each(data, function(key, value) {
-                        $('#id_permanent_upozilla').append($('<option>', { 
-                            value: value.id,
-                            text: value.upozilla 
-                        }));
-                    });
-                }
-            });
-        });
-
-        // Load upozillas for work address
-        $('#id_work_dist').change(function() {
-            var districtId = $(this).val();
-            $.ajax({
-                url: '{% url "load_upozillas" %}',
-                data: {
-                    'district_id': districtId
-                },
-                success: function(data) {
-                    $('#id_work_upozilla').html('<option value="">Select Upozilla</option>');
-                    $.each(data, function(key, value) {
-                        $('#id_work_upozilla').append($('<option>', { 
-                            value: value.id,
-                            text: value.upozilla 
-                        }));
-                    });
-                }
-            });
+            // Load upozillas for present, permanent, and work addresses
+            loadUpozillas('#id_present_dist', '#id_present_upozilla');
+            loadUpozillas('#id_permanent_dist', '#id_permanent_upozilla');
+            loadUpozillas('#id_work_dist', '#id_work_upozilla');
+        // Update amount_payable based on category_of_membership selection
+        $('#category_of_membership').change(function() {
+            var selectedOption = $(this).find('option:selected');
+            var amount = selectedOption.data('amount');
+            $('#amount_payable').val(amount ? parseFloat(amount).toFixed(2) : '');
         });
     });
+        
 </script>
 {% endblock %}
