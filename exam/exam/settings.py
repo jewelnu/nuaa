@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'alumni',
     'login',
-    'django_bootstrap5',
+    'bootstrap5',
     'dashboard',
     'userdetails',
     'contact_us'
@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'nuexam',
         'USER': 'postgres',
-        'PASSWORD': 'jeweland',
+        'PASSWORD': 'Jeweland',
         'HOST': 'localhost',
         'PORT': '5432',
     },
